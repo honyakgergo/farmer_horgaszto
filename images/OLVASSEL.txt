@@ -1,0 +1,30 @@
+FARMER HORGÁSZTÓ — optimalizált képek
+=====================================
+
+Mit tartalmaz ez a mappa
+------------------------
+A weboldal ÖSSZES képe, web-méretre optimalizálva.
+A fájlnevek pontosan ugyanazok, mint amit a HTML használ, ezért a
+weboldalon NEM kell semmit átírni.
+
+Hogyan cseréld le
+-----------------
+1. Az eredeti nagy felbontású fotókat mentsd el máshova (NE a repóba!),
+   pl. C:\Users\honya\Documents\farmer_eredeti_fotok\
+   Ezekre később még szükség lehet nyomtatáshoz vagy újravágáshoz.
+2. Töröld a régi fájlokat a repó images\ mappájából.
+3. Másold be ide ennek a mappának a tartalmát.
+4. Frissítsd az oldalt (Ctrl+Shift+R).
+
+Méretek
+-------
+DSC_5555.jpg          2560 px  — főoldali hero
+DSC_5380/5388/5394/
+5409/5421/5443/5517/
+5530/5568/6431/6699   2000 px  — aloldali fejlécek, nagy galéria-csempék
+a többi fotó          1600 px  — kártyák, kisebb blokkok
+jegy-*.png             512 px  — jegyikonok (átlátszó háttérrel)
+
+Minden JPEG: minőség 82, progresszív, metaadat nélkül.
+
+Eredmény: 446 MB  ->  11,4 MB   (a korábbi méret 2,6%-a)
