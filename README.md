@@ -13,12 +13,12 @@ szallas.html          szobák + sátorozás, éjszakai horgászat, amit biztosí
 rendezvenyterem.html  terem, ideális választás, felszereltség, bérleti díj
 galeria.html          galéria 3 csoportban (tópart / terület / nyár)
 rolunk.html           a tó bemutatása
-kapcsolat.html        elérhetőségek, megközelítés
+kapcsolat.html        elérhetőségek, megközelítés, kapcsolati űrlap
 impresszum.html       Moltax Kft. adatai
 adatkezeles.html      adatkezelési tájékoztató (12 pont)
 feltetelek.html       általános foglalási és szolgáltatási feltételek (20 pont)
 assets/css/style.css  minden stílus, számozott szekciókkal
-assets/js/main.js     mobil menü + görgetésre megjelenő animáció
+assets/js/main.js     mobil menü + görgetésre megjelenő animáció + űrlap beküldése
 assets/img/icons.svg  SVG sprite, 30 ikon
 assets/img/contours.svg  a tó mélységtérképének szintvonalai (maszk)
 images/               nagy felbontású fotók (eredetik)
@@ -152,19 +152,87 @@ Miért fontos: egy 6016×4016-os JPEG kb. **96 MB memóriát** foglal dekódolá
 után, függetlenül a fájlmérettől. 23 ilyen kép a galérián akadozó görgetést
 okoz — innen jött a laggolás.
 
+### Nem a DSC-sorozatból származó képek
+
+Két fájl nem a farmeri fotósorozat része, ezért az `optimize_images.py`
+újrafuttatása nem állítja elő őket. **Mindkettő a Parton-oldal
+fotókészletéből származik** (`../parton_website/assets/img/`) — a
+rendezvényterem ugyanaz a helyszín, ezért a termi fotók átvehetők:
+
+- `images/szallas-szoba.jpg` — belső szobafotó (kétágyas szoba),
+  forrás: `szallas-hero-1200.jpg`.
+  A `szallas.html` és a szolgáltatáskártyák használják.
+- `images/terem-elrendezes.jpg` — a terem négyszemélyes asztalokkal,
+  forrás: `rend-5-2200.webp` → 1600 px JPEG q82. A farmeri termi
+  sorozatban csak öt belső fotó van, a galéria hatodik csempéjéhez pedig
+  kellett még egy — és ez a kép egyben a „többféle elrendezéssel"
+  állítást is alátámasztja, mert a többi fotón hosszú, bankett-asztalok
+  állnak.
+
+  ```
+  sips -s format jpeg -s formatOptions 82 \
+       ../parton_website/assets/img/rend-5-2200.webp --out /tmp/r5.jpg
+  sips /tmp/r5.jpg --resampleWidth 1600 -s format jpeg \
+       -s formatOptions 82 --out images/terem-elrendezes.jpg
+  ```
+
+A Parton-készletben további, itt még nem használt termi fotók vannak:
+`rend-3` (gyertyás-virágos asztaldísz közelről), `rend-4` (hosszú
+bankett-asztalok másik szögből), `rend-hero` (a terem sarka képekkel).
+
 ## Nyitott kérdések a megbízónak
 
 - **Terem befogadóképessége:** az ÁSZF szerint max **48 fő**, a rendezvényterem
   mockup szerint **50 fő**. Az oldalon most 48 fő szerepel (az ÁSZF alapján).
-- **Hiányzó fotók:** nincs belső kép a szobákról és a rendezvényteremről, és
-  nincs sátras fotó. A mockupok ezekre épülnek. A HTML-ben
-  `<!-- CSERÉLENDŐ -->` kommentek jelzik a helyüket
-  (szallas.html, rendezvenyterem.html).
+- **Hiányzó fotók:** belső kép a szobákról és a rendezvényteremről már van,
+  a Parton-készletből átvéve (lásd „Nem a DSC-sorozatból származó képek").
+  **Sátras fotó továbbra sincs** — a sátorozás-kártyákon most tóparti,
+  füves terület látszik, nem felállított sátor.
 - **Tárhelyszolgáltató adatai** hiányoznak az impresszumból.
 - **Kameraszabályzat**: az adatkezelési tájékoztató 10. pontja utal rá,
   de a részletes szabályzat még nincs meg.
-- A mockup láblécében `+36 20 123 4567` szerepel — ez placeholder volt,
-  az oldalon a valódi `+36 70 326 2692` van.
+- A mockup láblécében `+36 20 123 4567` szerepel — ez placeholder volt.
+  Az oldalon két valódi szám van, cél szerint szétválasztva:
+  **horgászat 06 20 553 2113**, **rendezvény 06 70 326 2692**. A lábléc
+  mindkettőt feliratozva hozza, az árak oldal CTA-ja a horgászati számot,
+  a jogi oldalak (impresszum, adatkezelés, feltételek) mindkettőt.
+
+## Kapcsolati űrlap
+
+A `kapcsolat.html` alján lévő űrlap a **Web3Forms** végpontjára küld
+(`https://api.web3forms.com/submit`). A statikus oldal magától nem tud
+levelet küldeni, ezért kell hozzá külső szolgáltató.
+
+**Beüzemelés — egy lépés:**
+
+1. Regisztráció a web3forms.com oldalon. **Bármelyik olvasható e-mail-cím
+   megteszi** — a kulcs nem a domainhez, hanem a fiókhoz tartozik. Amíg az
+   `info@farmerhorgaszto.hu` postafiók nem él, jó egy személyes cím is; ha
+   később elkészül, a címzettet a Web3Forms felületén kell átállítani, a
+   kulcs marad, kódot nem kell módosítani.
+2. A kulcsot a `kapcsolat.html`-ben a `WEB3FORMS_ACCESS_KEY` helyére kell
+   beírni:
+
+   ```html
+   <input type="hidden" name="access_key" value="ide-jön-a-kulcs">
+   ```
+
+Amíg a helykitöltő ott van, az űrlap nem küld: a beküldésre magyar
+hibaüzenettel a telefonszámra irányít, hogy egyetlen érdeklődés se menjen
+a semmibe. (Szándékosan a telefonszámra, nem az e-mail-címre — az a
+postafiók még nem él.) A kulcs nyilvános a HTML-ben — a
+Web3Forms így működik, a szűrést a robotcsapda (`botcheck` mező) és a
+szolgáltató oldali spamvédelem végzi.
+
+**Amit érdemes még beállítani a Web3Forms felületén:** a beérkező levelek
+címzettje, a válasz-cím (a `email` mező alapján), és — ha jön spam —
+captcha (pl. Cloudflare Turnstile, ami a Pages-deployhoz amúgy is illik).
+
+**Adatkezelés:** az `adatkezeles.html` 3. pontja már a weboldali űrlapot
+is felsorolja adatfelvételi csatornaként, a 6. pont pedig az
+űrlapszolgáltatót címzettként. Ha a szolgáltató változik, ezt a két
+pontot is át kell írni. Az űrlapon kötelező jelölőnégyzet hivatkozik a
+tájékoztatóra.
 
 ## Későbbi teendők
 

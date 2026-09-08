@@ -3,6 +3,8 @@
    2) fejléc: árnyék + összezárás görgetési irány szerint
    3) megjelenítő animáció
    4) görgetéssel vezérelt vízszintes kártyasáv
+   5) kapcsolati űrlap (Web3Forms)
+   6) SVG ikonkészlet beszúrása (a Safari nem tölt külső <use>-t)
    Minden rész opcionális: ha az adott elem nincs az oldalon, kimarad.
    Későbbi fejlesztés helye: „akvárium” szekció (canvas + úszkáló halak). */
 
@@ -123,7 +125,7 @@
   }
 
   /* --- 5. Képnézegető (lightbox) ------------------------------------- */
-  var links = Array.prototype.slice.call(document.querySelectorAll('.gal a'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('.gal a, .archive a'));
 
   if (links.length) {
     var box = document.createElement('div');
@@ -234,6 +236,10 @@
   var cards = Array.prototype.slice.call(hs.querySelectorAll('.hscroll__item'));
   var metrics = [];
   var travel = 0;
+  /* A szakasz végén tartott extra görgetés. Nélküle a vízszintes út
+     ugyanabban a pixelben ér véget, ahol a ragadás megszűnik, ezért az
+     utolsó kártya azonnal felfelé kicsúszik — épp csak felvillan. */
+  var hold = 0;
   var current = 0;   // ahol a sáv éppen tart
   var target = 0;    // ahol a görgetés szerint lennie kellene
   var velocity = 0;
@@ -290,10 +296,14 @@
   };
 
   var tick = function () {
+    /* A szakaszon belül megtett út. A vízszintes mozgás az első
+       (span - hold) pixelen fut le, a maradék hold alatt a sáv a helyén
+       marad — így az utolsó kártya olvasható ideig látszik. */
     var span = hs.offsetHeight - sticky.offsetHeight;
     if (span > 0) {
-      var progress = clamp(-hs.getBoundingClientRect().top / span, 0, 1);
-      target = progress * travel;
+      var scrolled = clamp(-hs.getBoundingClientRect().top, 0, span);
+      var moving = Math.max(1, span - hold);
+      target = clamp(scrolled / moving, 0, 1) * travel;
     }
 
     var diff = target - current;
@@ -391,7 +401,10 @@
       return;
     }
     travel = Math.max(0, track.scrollWidth - sticky.clientWidth);
-    hs.style.height = (sticky.offsetHeight + travel) + 'px';
+    /* a tartás a ragadó rész magasságához mérve: fél képernyő körüli
+       görgetés, de nem kevesebb 300-nál és nem több 560 px-nél */
+    hold = travel ? clamp(Math.round(sticky.clientHeight * 0.55), 300, 560) : 0;
+    hs.style.height = (sticky.offsetHeight + travel + hold) + 'px';
     measure();
     start();
   };
@@ -410,4 +423,104 @@
   window.addEventListener('resize', layout);
   window.addEventListener('load', layout);
   layout();
+})();
+
+/* --- 7. Kapcsolati űrlap (Web3Forms) ---------------------------------
+   Külön blokk, mert a 6. rész a .hscroll hiányában kilép — a kapcsolat
+   oldalon pedig nincs kártyasáv. Oldalújratöltés nélkül küld; ha a JS
+   nem fut le, a form natívan is elmegy, csak a szolgáltató saját
+   visszaigazoló lapján köt ki. */
+(function () {
+  'use strict';
+
+  var form = document.querySelector('[data-form]');
+  if (!form) return;
+
+  var statusEl = form.querySelector('[data-form-status]');
+  var btn = form.querySelector('[data-form-submit]');
+  var keyEl = form.querySelector('input[name="access_key"]');
+  var btnLabel = btn.innerHTML;
+
+  var TEL = 'horgászat 06 20 553 2113, rendezvény 06 70 326 2692';
+
+  var FAIL = 'Az üzenetet most nem sikerült elküldeni. Kérünk, próbáld újra, ' +
+             'vagy hívj minket: ' + TEL + '.';
+
+  var say = function (msg, kind) {
+    statusEl.textContent = msg;
+    statusEl.className = 'form__status' + (msg ? ' is-' + kind : '');
+  };
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    form.classList.add('is-checked');
+
+    /* Amíg a hozzáférési kulcs nincs beírva, ne tűnjön úgy, hogy elment. */
+    if (!keyEl || keyEl.value.indexOf('WEB3FORMS') === 0) {
+      say('Az űrlap még nincs beállítva. Kérünk, hívj minket: ' + TEL +
+          ' (kedd–vasárnap 7:00–18:00).', 'err');
+      return;
+    }
+
+    var data = {};
+    new FormData(form).forEach(function (value, key) { data[key] = value; });
+
+    btn.disabled = true;
+    btn.textContent = 'Küldés…';
+    say('', 'ok');
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(function (res) {
+        return res.json().then(function (body) { return body && body.success; });
+      })
+      .then(function (ok) {
+        if (!ok) { say(FAIL, 'err'); return; }
+        form.reset();
+        form.classList.remove('is-checked');
+        say('Köszönjük, megkaptuk az üzenetet! Hamarosan válaszolunk.', 'ok');
+      })
+      .catch(function () { say(FAIL, 'err'); })
+      .then(function () {
+        btn.disabled = false;
+        btn.innerHTML = btnLabel;
+      });
+  });
+})();
+
+/* --- 8. SVG ikonkészlet beszúrása -------------------------------------
+   A <use href="assets/img/icons.svg#..."> külső hivatkozást a WebKit
+   (Safari és minden iOS-böngésző) nem tölti be: ott minden ikon helye
+   üresen maradt. A sprite-ot ezért egyszer behúzzuk a dokumentumba, és a
+   hivatkozásokat helyi (#id) formára írjuk át — így minden böngészőben
+   ugyanaz látszik. Ha a betöltés elbukik, a külső hivatkozás marad, tehát
+   nem lesz rosszabb a mostani állapotnál. */
+(function () {
+  'use strict';
+
+  var SRC = 'assets/img/icons.svg';
+  var refs = document.querySelectorAll('use[href^="' + SRC + '#"]');
+  if (!refs.length || !window.fetch) return;
+
+  fetch(SRC)
+    .then(function (res) { return res.ok ? res.text() : Promise.reject(); })
+    .then(function (markup) {
+      var box = document.createElement('div');
+      box.setAttribute('aria-hidden', 'true');
+      box.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+      box.innerHTML = markup;
+      document.body.insertBefore(box, document.body.firstChild);
+
+      var XLINK = 'http://www.w3.org/1999/xlink';
+      Array.prototype.forEach.call(refs, function (use) {
+        var id = use.getAttribute('href').slice(SRC.length);
+        use.setAttribute('href', id);
+        /* a WebKit régebbi verziói csak az xlink:href-et követik */
+        use.setAttributeNS(XLINK, 'xlink:href', id);
+      });
+    })
+    .catch(function () { /* marad a külső hivatkozás */ });
 })();

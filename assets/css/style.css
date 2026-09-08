@@ -10,7 +10,7 @@
    14) Pipás lista  15) CTA sáv  16) Galéria  17) Jogi szövegek
    18) Lábléc  19) Animáció  20) Reszponzív
    Atmoszféra: 2b) légtér-réteg  9b) vízszint-szekciók
-   14c) fotósáv  22) szintvonal-motívum
+   14c) fotósáv  22) szintvonal-motívum  24) kapcsolati űrlap
    ============================================================ */
 
 /* --- 1. Tokenek ------------------------------------------- */
@@ -167,7 +167,7 @@ h1,h2,h3,h4,.disp{
 .hdr.is-compact .logo__n{font-size:1.24rem}
 .hdr.is-compact .logo__s{font-size:0;opacity:0;margin-top:-2px}
 
-/* a logó teláll a bal sarokban, a menüpontok egyenletesen oszlanak el */
+/* a logó a bal sarokban áll, a menü jobbra tömörödik */
 .hdr__in{
   display:flex;align-items:center;gap:clamp(20px,3vw,60px);
   max-width:none;margin:0;
@@ -191,13 +191,13 @@ h1,h2,h3,h4,.disp{
 }
 .logo__s::before,.logo__s::after{content:"";flex:1 1 auto;height:1px;background:rgba(241,234,226,.45)}
 
-/* a menü kitölti a maradék szélességet, a linkek egyenletesen oszlanak el
-   (ugyanaz a modell, mint a Parton oldalon) */
-.nav{display:flex;align-items:center;flex:1 1 auto;justify-content:space-between;gap:clamp(10px,1.1vw,22px)}
+/* a menü a maradék szélességet kitölti, de a linkek a jobb szélhez
+   igazodnak — nem szóródnak szét a teljes fejlécen */
+.nav{display:flex;align-items:center;flex:1 1 auto;justify-content:flex-end;gap:clamp(20px,1.9vw,40px)}
 .nav ul{
   display:flex;align-items:center;
-  flex:1 1 auto;justify-content:space-between;
-  gap:clamp(10px,1.1vw,22px);
+  flex:0 1 auto;justify-content:flex-end;
+  gap:clamp(20px,1.9vw,40px);
 }
 .nav a{
   display:block;position:relative;padding:8px 2px;
@@ -455,6 +455,26 @@ h1,h2,h3,h4,.disp{
 .feats--bare li{border-left:1px solid var(--line)}
 .feats--bare li:first-child{border-left:0}
 
+/* --- 11d. Elérhetőség-sáv mélyzöld mezőn -------------------
+   A kapcsolat oldal sávja. A zöld mező maga adja a hangsúlyt,
+   ezért nincs benne ikon: csak a felirat és az érték, a mezőben
+   középen. A nyitvatartás két sorban áll, a másik két érték
+   egyben — hogy a feliratok mégis egy vonalban maradjanak, minden
+   érték ugyanannyi helyet kap, és abban van középre igazítva. */
+.feats--dark{--n:4;background:var(--dark);border-color:rgba(241,234,226,.2)}
+.feats--dark li{
+  gap:9px;justify-content:center;
+  padding:clamp(18px,2vw,26px) clamp(10px,1.4vw,20px);
+  border-left-color:rgba(241,234,226,.2);
+}
+.feats--dark li > :last-child{
+  display:flex;align-items:center;justify-content:center;
+  min-height:3.1rem;text-align:center;
+}
+.feats--dark span{color:var(--cream)}
+.feats--dark a{color:var(--cream)}
+.feats--dark a:hover{color:var(--gold-l)}
+
 /* --- 11b. Adatsáv (ikon nélkül, érték + felirat) ---------- */
 .specs{
   display:grid;grid-template-columns:repeat(var(--n,5),1fr);
@@ -497,10 +517,11 @@ h1,h2,h3,h4,.disp{
 .scard__fig{position:relative;margin:0;aspect-ratio:4/3;overflow:hidden;background:var(--dark-2)}
 .scard__fig img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
 .scard:hover .scard__fig img{transform:scale(1.05)}
-.scard__b{padding:clamp(22px,2.4vw,30px) clamp(18px,2.2vw,28px) clamp(20px,2.4vw,28px);text-align:center;display:flex;flex-direction:column;flex:1 1 auto}
+.scard__b{padding:clamp(22px,2.4vw,30px) clamp(18px,2.2vw,28px) clamp(20px,2.4vw,28px);text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1 1 auto}
 .scard__t{font-family:var(--disp);font-weight:600;font-size:1.2rem;letter-spacing:.04em;text-transform:uppercase;color:var(--dark)}
 .scard__b .uline{margin:11px auto 15px}
 .scard__b p{color:var(--ink-soft);font-size:.96rem;line-height:1.65;margin-bottom:1.5em}
+.scard__b p:last-child{margin-bottom:0}
 .scard__b .btn{margin-top:auto;align-self:center}
 
 /* --- 13. Kétosztatú kártya ------------------------------ */
@@ -558,6 +579,15 @@ h1,h2,h3,h4,.disp{
 .hl::before{
   content:"";position:absolute;inset:12px;
   border:1px solid rgba(194,164,75,.28);pointer-events:none;
+}
+/* A szintvonalak helyett halk fényjáték: fentről meleg arany derengés,
+   lent beülő mélység. Mintázat nélkül, hogy a szöveg maradjon a
+   főszereplő — a keretvonal (::before) adja a rendet. */
+.hl::after{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(122% 88% at 15% -14%,rgba(194,164,75,.17) 0%,rgba(194,164,75,0) 58%),
+    radial-gradient(92% 72% at 93% 110%,rgba(0,0,0,.36) 0%,rgba(0,0,0,0) 62%);
 }
 .hl__body{position:relative;z-index:1;max-width:78ch;margin:0 auto}
 .hl__t{
@@ -715,6 +745,49 @@ h1,h2,h3,h4,.disp{
   display:block;font-size:.86rem;letter-spacing:.05em;
   color:rgba(241,234,226,.8);margin-top:.25em;
 }
+/* A kapcsolat oldalon a sáv nem egy mondatot tart, hanem a megközelítés
+   adatait: kisebb cím, alatta cím-sor, egy mondat és a két térképgomb.
+   Így elhagyható lett a korábbi külön „Cím + térkép” szekció. */
+.band--info{min-height:clamp(380px,34vw,500px)}
+/* Itt nem egy nagy sor, hanem folyószöveg is van, ezért a fátyol
+   balról sűrűbb: a szöveg olvasható marad, a kép jobb oldala nyitva. */
+.band--info::after{
+  background:
+    linear-gradient(to right,rgba(11,17,9,.9) 0%,rgba(11,17,9,.66) 36%,
+                    rgba(11,17,9,.2) 68%,rgba(11,17,9,.06) 100%),
+    linear-gradient(to top,rgba(11,17,9,.55) 0%,rgba(11,17,9,.1) 55%);
+}
+.band--info .band__t{font-size:clamp(1.5rem,3vw,2.5rem);max-width:none}
+.band__addr{
+  font-family:var(--disp);font-weight:600;
+  font-size:clamp(1.1rem,1.9vw,1.5rem);line-height:1.3;
+  letter-spacing:.01em;text-transform:none;color:var(--cream);
+  margin-top:clamp(16px,2vw,26px);
+  text-shadow:0 3px 24px rgba(10,14,8,.6);
+}
+.band__d{
+  max-width:46ch;margin-top:.7em;line-height:1.7;
+  color:rgba(241,234,226,.86);
+  text-shadow:0 2px 18px rgba(10,14,8,.6);
+}
+.band__btns{
+  display:flex;flex-wrap:wrap;gap:12px;
+  margin-top:clamp(20px,2.4vw,30px);
+}
+/* Szűk nézetben a szöveg a teljes szélességet elfoglalja, ezért a
+   fátyol ott végig sűrű, nem csak a bal oldalon. */
+@media (max-width:760px){
+  .band--info::after{
+    background:
+      linear-gradient(to right,rgba(11,17,9,.88) 0%,rgba(11,17,9,.72) 60%,
+                      rgba(11,17,9,.58) 100%),
+      linear-gradient(to top,rgba(11,17,9,.5) 0%,rgba(11,17,9,.12) 60%);
+  }
+}
+@media (max-width:460px){
+  .band__btns .btn{width:100%}
+}
+
 @media (max-width:560px){.band__m{gap:14px 26px}}
 
 /* --- 15. CTA sáv ---------------------------------------- */
@@ -740,7 +813,12 @@ h1,h2,h3,h4,.disp{
   grid-auto-flow:dense;
   gap:clamp(8px,.85vw,14px);
 }
-/* alap csempé: 1 oszlop × 2 sor — a változatokat a HTML osztályai adják */
+/* Alap csempe: 1 hasáb × 2 sor. A magasság MINDEN csempénél ennyi, csak a
+   szélesség változik (.wide = 2 hasáb). Ez szándékos: ha a magasság is
+   változna (korábban .tall = 3 sor, .big = 2×3), a sorok kicsúsznak a
+   ritmusból, és a dense-elhelyezés nem tudja betölteni az így keletkező
+   egysoros réseket — mert minden csempe legalább 2 sor magas. Innen jöttek
+   a lyukak a rács közepén. */
 .gal a{
   position:relative;display:block;overflow:hidden;
   grid-column:span 1;grid-row:span 2;
@@ -749,8 +827,18 @@ h1,h2,h3,h4,.disp{
   transition:transform .55s var(--ease),box-shadow .55s var(--ease);
 }
 .gal a.wide{grid-column:span 2}
-.gal a.tall{grid-row:span 3}
-.gal a.big{grid-column:span 2;grid-row:span 3}
+/* A rács csak akkor telik ki maradék nélkül, ha a csempék összesített
+   területe osztható a hasábszámmal. Egy csempe 1 egység, a .wide 2, tehát
+   N kép és W széles csempe esetén a terület N + W. A hasábszám viszont
+   1100 px alatt 3-ra, 760 px alatt 2-re vált, ezért egy fix W nem tud
+   mindháromra kijönni. Erre való ez a két jelölő: a 3 hasábos sávban
+   egyetlen csempe szélessége átvált, és a terület újra osztható lesz.
+     .wide--opt  — széles, KIVÉVE a 3 hasábos sávban  (galéria: 5 → 4)
+     .wide--3    — széles CSAK a 3 hasábos sávban     (rólunk:  1 → 2) */
+@media (min-width:761px) and (max-width:1100px){
+  .gal a.wide--opt{grid-column:span 1}
+  .gal a.wide--3{grid-column:span 2}
+}
 
 .gal img{
   width:100%;height:100%;object-fit:cover;
@@ -779,12 +867,10 @@ h1,h2,h3,h4,.disp{
 
 @media (max-width:1100px){
   .gal{grid-template-columns:repeat(3,1fr)}
-  .gal a.big{grid-column:span 2;grid-row:span 3}
 }
 @media (max-width:760px){
   .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(96px,20vw,150px)}
-  .gal a.wide,.gal a.big{grid-column:span 2}
-  .gal a.big{grid-row:span 3}
+  .gal a.wide{grid-column:span 2}
   .gal--plain{grid-template-columns:repeat(2,1fr) !important}
 }
 
@@ -877,14 +963,29 @@ h1,h2,h3,h4,.disp{
   font-size:clamp(1.25rem,2.2vw,1.72rem);line-height:1.45;letter-spacing:.005em;
   color:var(--dark);text-align:center;
 }
+/* Három bekezdés, három hasáb — egy bekezdés egy hasáb. Korábban
+   `columns:2` volt: három bekezdést két hasábba tördelve az egyik
+   oldalon két bekezdés állt, a másikon egy, és alatta nagy üres folt
+   maradt. Ráccsal ez nem fordulhat elő. A bekezdések fölötti rövid
+   arany vonal ugyanaz a jelölés, mint a fotósáv adatainál. */
 .intro__cols{
-  columns:2;column-gap:clamp(28px,4vw,60px);
-  margin-top:clamp(24px,3vw,40px);
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(20px,2.8vw,42px);
+  margin-top:clamp(26px,3.4vw,46px);
   color:var(--ink-soft);
 }
-.intro__cols p{margin-bottom:1em;break-inside:avoid}
-.intro__cols p:last-child{margin-bottom:0}
-@media (max-width:760px){.intro__cols{columns:1}}
+.intro__cols p{
+  position:relative;padding-top:clamp(14px,1.6vw,19px);
+  font-size:.98rem;line-height:1.72;
+}
+.intro__cols p::before{
+  content:"";position:absolute;top:0;left:0;
+  width:32px;height:2px;background:var(--gold);
+}
+/* egy hasáb alatt a rövid mérték már olvashatatlanul keskeny lenne */
+@media (max-width:900px){
+  .intro__cols{grid-template-columns:1fr;gap:clamp(16px,2.4vw,24px)}
+}
 
 .pull{margin:clamp(30px,4vw,52px) auto 0;text-align:center;max-width:46ch}
 .pull::before{
@@ -919,6 +1020,10 @@ h1,h2,h3,h4,.disp{
 .ftr__row .ico{width:19px;height:19px;margin-top:5px;color:var(--gold)}
 .ftr__row a:hover{color:var(--gold-l)}
 .ftr__sm{font-size:.88rem;color:rgba(241,234,226,.66);line-height:1.6}
+/* két telefonszám, cél szerint felirattal: a szám blokk, hogy külön sorba
+   kerüljön a fölötte lévő felirattól */
+.ftr__phones a{display:block}
+.ftr__phones p:not(:first-child){margin-top:.7em}
 .ftr .g{color:var(--gold-l)}
 .ftr__btn{
   display:inline-flex;align-items:center;gap:9px;margin-top:14px;padding:10px 18px;
@@ -993,7 +1098,7 @@ h1,h2,h3,h4,.disp{
    A @supports azért kell, mert maszk nélkül a színréteg letakarná a
    szekciót — támogatás híján egyszerűen elmarad a díszítés. */
 @supports ((-webkit-mask-image:url("../img/contours.svg")) or (mask-image:url("../img/contours.svg"))){
-  .hl::after,.sec--deep::after,.ftr::before{
+  .sec--deep::after,.ftr::before{
     content:"";position:absolute;inset:-8% -5%;z-index:0;pointer-events:none;
     background:var(--gold);opacity:.15;
     -webkit-mask:url("../img/contours.svg") no-repeat 50% 48%/cover;
@@ -1018,6 +1123,79 @@ h1,h2,h3,h4,.disp{
 }
 @keyframes hero-settle{from{transform:scale(1.06)}to{transform:scale(1)}}
 @keyframes hero-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* --- 24. Kapcsolati űrlap -------------------------------------------
+   A kapcsolat oldal űrlapja. Beküldés a Web3Forms végpontjára megy,
+   a hozzáférési kulcs a kapcsolat.html rejtett mezőjében van (lásd
+   README). A mezők a meglévő tokeneket használják, hogy az űrlap
+   ugyanabban a képben maradjon, mint a panelek és a gombok. */
+.form{display:grid;gap:clamp(15px,1.7vw,21px)}
+.form__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(15px,1.7vw,21px)}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field--full{grid-column:1 / -1}
+.field label{
+  font-family:var(--disp);font-weight:500;font-size:.78rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--dark);
+}
+.req{color:var(--gold)}
+.field input,.field select,.field textarea{
+  width:100%;padding:12px 14px;
+  font-family:var(--body);font-size:1rem;line-height:1.5;color:var(--ink);
+  background:var(--paper);border:1px solid var(--line-2);border-radius:0;
+  -webkit-appearance:none;appearance:none;
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+.field textarea{min-height:158px;resize:vertical;line-height:1.65}
+.field select{
+  padding-right:38px;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%231a2416' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;
+}
+.field input::placeholder,.field textarea::placeholder{color:rgba(81,91,72,.58)}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(194,164,75,.22);
+}
+/* csak beküldés után jelöljük hibásnak — gépelés közben ne piruljon */
+.form.is-checked :invalid{border-color:rgba(162,69,47,.7)}
+
+.form__consent{
+  display:flex;gap:12px;align-items:flex-start;
+  font-size:.94rem;color:var(--ink-soft);line-height:1.6;cursor:pointer;
+}
+.form__consent input{
+  width:19px;height:19px;margin:3px 0 0;flex:0 0 auto;
+  accent-color:var(--gold);cursor:pointer;
+}
+.form__consent a{
+  color:var(--dark);text-decoration:underline;
+  text-decoration-color:var(--gold);text-underline-offset:3px;
+}
+.form__consent a:hover{color:var(--gold)}
+
+.form__foot{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.form__note{font-size:.86rem;color:var(--ink-soft)}
+
+/* robotcsapda: ember nem látja, képernyőolvasó sem olvassa */
+.form__hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.form__status{
+  padding:13px 16px;background:var(--paper);
+  border-left:3px solid var(--line-2);
+  font-size:.95rem;line-height:1.6;
+}
+.form__status:empty{display:none}
+.form__status.is-ok{border-left-color:#4d7a3a;color:#315023;background:rgba(77,122,58,.08)}
+.form__status.is-err{border-left-color:#a2452f;color:#7d3020;background:rgba(162,69,47,.07)}
+
+.form [data-form-submit][disabled]{opacity:.55;cursor:progress}
+
+@media (max-width:660px){
+  .form__grid{grid-template-columns:1fr}
+  .form__foot{flex-direction:column-reverse;align-items:stretch}
+  .form__foot .btn{width:100%}
+  .form__note{text-align:center}
+}
 
 /* --- 21. Reszponzív ------------------------------------- */
 /* Kis kijelzőn a rögzített hátterek minden görgetésnél újrafestenek,
@@ -1075,4 +1253,127 @@ h1,h2,h3,h4,.disp{
   .hero__img img{object-position:50% 50%}
   .ftr__top{grid-template-columns:1fr}
   .ftr__bot{flex-direction:column;align-items:flex-start}
+}
+
+/* --- 24b. Elérhetőség-sáv szűk nézetben ------------------------------
+   660 px alatt két hasáb, 520 px alatt egy — három hasábban a
+   telefonszám és az e-mail-cím szó közben tördelődne. A választóvonalak
+   itt világosak, mert zöld mezőn futnak. A fájl végén áll, hogy a 21.
+   szakasz általános .feats-szabályait forrássorrendben is felülírja. */
+@media (max-width:660px){
+  /* két hasábban a páratlanul maradó utolsó mező a teljes sort kitölti */
+  .feats.feats--dark li:last-child:nth-child(odd){grid-column:1 / -1}
+  /* egymás alatt már nincs mihez igazítani: a mező a tartalomra szűkül */
+  .feats.feats--dark li > :last-child{min-height:0}
+  .feats.feats--dark li{border-left:1px solid rgba(241,234,226,.2);border-top:0}
+  .feats.feats--dark li:nth-child(2n+1){border-left:0}
+  .feats.feats--dark li:nth-child(n+3){border-top:1px solid rgba(241,234,226,.2)}
+}
+@media (max-width:520px){
+  .feats.feats--dark{--n:1}
+  .feats.feats--dark li{border-left:0}
+  .feats.feats--dark li + li{border-top:1px solid rgba(241,234,226,.2)}
+}
+
+/* --- 25. „Parton" átvezető blokk ------------------------------------
+   A rendezvényterem saját oldalára (partonrendezveny.hu) vezet, ezért
+   nem a farmeri mélyzöld-arany párost viseli, hanem a Parton-oldal
+   zsályazöldjét és meleg krémjét — így ránézésre is látszik, hogy egy
+   másik oldalra visz. A fel-le hullámos perem a névre („parton") és a
+   tóra utal; maszkkal készül, hogy a lapháttér átlátsszon a hullámok
+   között, ne egy kitöltött csík fedje.
+   A díszítő ikon szándékosan beágyazott SVG, nem a sprite-ból jön:
+   a WebKit a külső <use>-t nem tölti be. */
+.pcta{
+  --p-green:#6c7d58;      /* Parton zsálya */
+  --p-dark:#4e5b3f;
+  --p-cream:#fff6e0;
+  --wave-w:46px;          /* egy fél hullám szélessége */
+  --wave-h:16px;          /* hullámmagasság */
+
+  position:relative;overflow:hidden;
+  padding:calc(var(--wave-h) + clamp(26px,3.4vw,44px)) clamp(22px,3.4vw,52px);
+  background:
+    radial-gradient(120% 130% at 100% 0%,rgba(255,246,224,.16) 0%,rgba(255,246,224,0) 55%),
+    linear-gradient(135deg,var(--p-green) 0%,var(--p-dark) 100%);
+  color:var(--p-cream);
+
+  /* Hullámos felső ÉS alsó perem. A hullámot beágyazott SVG rajzolja
+     (igazi szinusz, nem félkörös csipke), maszkként ismételve vízszintesen;
+     a középső linear-gradient tartja meg a két perem közti tömböt. Mivel
+     maszk, a lapháttér átlátszik a hullámok között — nincs kitöltött csík. */
+  --wave-top:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='16' preserveAspectRatio='none'%3E%3Cpath d='M0 8 Q20 0 40 8 Q60 16 80 8 L80 16 L0 16 Z' fill='black'/%3E%3C/svg%3E");
+  --wave-bot:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='16' preserveAspectRatio='none'%3E%3Cpath d='M0 8 Q20 16 40 8 Q60 0 80 8 L80 0 L0 0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask:
+    var(--wave-top) top left/calc(var(--wave-w)*2) var(--wave-h) repeat-x,
+    var(--wave-bot) bottom left/calc(var(--wave-w)*2) var(--wave-h) repeat-x,
+    linear-gradient(#000 0 0) center/100% calc(100% - var(--wave-h)*2) no-repeat;
+  mask:
+    var(--wave-top) top left/calc(var(--wave-w)*2) var(--wave-h) repeat-x,
+    var(--wave-bot) bottom left/calc(var(--wave-w)*2) var(--wave-h) repeat-x,
+    linear-gradient(#000 0 0) center/100% calc(100% - var(--wave-h)*2) no-repeat;
+}
+
+.pcta__in{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr auto;
+  gap:clamp(18px,3vw,44px);align-items:center;
+}
+.pcta__eyebrow{
+  font-family:var(--disp);font-weight:500;font-size:.76rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,246,224,.72);
+}
+.pcta__t{
+  font-family:var(--disp);font-weight:600;
+  font-size:clamp(1.5rem,3.4vw,2.5rem);line-height:1.05;
+  letter-spacing:.06em;text-transform:uppercase;
+  margin-top:.28em;
+}
+.pcta__t em{
+  font-style:normal;font-weight:300;
+  font-size:.44em;letter-spacing:.14em;
+  display:block;color:rgba(255,246,224,.66);margin-top:.5em;
+}
+.pcta__d{
+  margin-top:.9em;max-width:52ch;line-height:1.7;
+  color:rgba(255,246,224,.9);
+}
+/* a gomb a Parton krémjét viseli, nem a farmeri aranyat */
+.pcta__btn{
+  background:var(--p-cream);border-color:var(--p-cream);color:var(--p-dark);
+  white-space:nowrap;
+}
+.pcta__btn:hover{background:#fff;border-color:#fff;color:var(--p-dark)}
+
+/* fodrozódó vízvonalak a jobb szélen — csak dísz, kicsiben elmarad */
+.pcta__ripple{
+  position:absolute;right:-44px;bottom:-40px;width:clamp(200px,24vw,340px);
+  height:auto;color:rgba(255,246,224,.13);pointer-events:none;z-index:0;
+}
+
+@media (max-width:820px){
+  .pcta__in{grid-template-columns:1fr;gap:clamp(16px,3vw,24px)}
+  .pcta__btn{justify-self:start}
+  .pcta__ripple{display:none}
+}
+
+
+/* --- 26. Archív képpár (rólunk oldal) ------------------------------
+   Régi, kis felbontású családi fotók. Itt nincs vágás: a kép a saját
+   arányában áll (height:auto), mert egy archív felvételnél a teljes
+   kompozíció a lényeg — és a 960 px-es forrás nem is bír el nagyítást. */
+.archive{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(16px,2.4vw,32px);
+  margin-top:clamp(24px,3vw,40px);
+}
+.archive a{
+  display:block;overflow:hidden;background:var(--dark-2);
+  border:1px solid var(--line);
+}
+.archive img{width:100%;height:auto;transition:transform .8s var(--ease)}
+.archive a:hover img{transform:scale(1.03)}
+@media (max-width:700px){
+  .archive{grid-template-columns:1fr}
 }

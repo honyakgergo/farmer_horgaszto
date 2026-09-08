@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kapcsolat – Farmer Horgásztó</title>
-<meta name="description" content="Farmer Horgásztó elérhetőségek: 2336 Dunavarsány, Nagyvarsányi utca 138/5. Telefon: +36 70 326 2692, e-mail: info@farmerhorgaszto.hu.">
+<meta name="description" content="Farmer Horgásztó elérhetőségek: 2336 Dunavarsány, Nagyvarsányi utca 138/5. Telefon: 06 20 553 2113 (horgászat), 06 70 326 2692 (rendezvény), e-mail: info@farmerhorgaszto.hu.">
 <meta name="theme-color" content="#1a2416">
 <link rel="canonical" href="https://www.farmerhorgaszto.hu/kapcsolat.html">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,83 +49,117 @@
   <div class="wrap">
     <p class="lead center mx rv" style="max-width:66ch">Írj vagy hívj minket – segítünk a horgászhely, a szállás vagy a rendezvényed időpontjának egyeztetésében. A foglalás minden esetben előzetes egyeztetés alapján történik.</p>
 
-    <ul class="feats rv" style="--n:3;margin-top:clamp(28px,3.6vw,48px)">
+    <ul class="feats feats--dark rv" style="margin-top:clamp(28px,3.6vw,48px)">
       <li>
-        <svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#phone"/></svg>
-        <span>Telefon</span>
-        <a href="tel:+36703262692" class="disp" style="font-size:1.16rem;font-weight:600;text-transform:none;letter-spacing:.02em;color:var(--dark)">+36 70 326 2692</a>
+        <span>Horgászat</span>
+        <a href="tel:+36205532113" class="disp" style="font-size:1.16rem;font-weight:600;text-transform:none;letter-spacing:.02em;color:var(--cream)">06 20 553 2113</a>
       </li>
       <li>
-        <svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#mail"/></svg>
+        <span>Rendezvény</span>
+        <a href="tel:+36703262692" class="disp" style="font-size:1.16rem;font-weight:600;text-transform:none;letter-spacing:.02em;color:var(--cream)">06 70 326 2692</a>
+      </li>
+      <li>
         <span>E-mail</span>
-        <a href="mailto:info@farmerhorgaszto.hu?subject=Foglal%C3%A1s%20%E2%80%93%20Farmer%20Horg%C3%A1szt%C3%B3" class="disp" style="font-size:1rem;font-weight:500;text-transform:none;letter-spacing:.01em;color:var(--dark);word-break:break-word">info@farmerhorgaszto.hu</a>
+        <a href="mailto:info@farmerhorgaszto.hu?subject=Foglal%C3%A1s%20%E2%80%93%20Farmer%20Horg%C3%A1szt%C3%B3" class="disp" style="font-size:1rem;font-weight:500;text-transform:none;letter-spacing:.01em;color:var(--cream);word-break:break-word">info@farmerhorgaszto.hu</a>
       </li>
       <li>
-        <svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#clock"/></svg>
         <span>Nyitvatartás</span>
-        <span style="font-family:var(--body);font-size:.96rem;text-transform:none;letter-spacing:0;color:var(--ink-soft);line-height:1.6">Kedd – vasárnap<br>7:00 – 18:00<br>Hétfő: zárva</span>
+        <span style="font-family:var(--body);font-size:.96rem;text-transform:none;letter-spacing:0;color:rgba(241,234,226,.78);line-height:1.6">Kedd – vasárnap: 7:00 – 18:00<br>Hétfő: zárva</span>
       </li>
     </ul>
   </div>
 </section>
 
-<!-- ============ FOTÓSÁV ============ -->
-<section class="band">
+<!-- ============ FOTÓSÁV + MEGKÖZELÍTÉS ============ -->
+<!-- A megközelítés adatai a fotósávba kerültek, hogy az oldal rövidebb
+     legyen: a korábbi külön „Cím + térkép” szekció (panel + fotó) így
+     elhagyható volt. -->
+<section class="band band--info">
   <div class="band__img"><img src="images/DSC_5517.jpg" alt="A tó vize a parti fák és aranyvessző között." loading="lazy"></div>
   <div class="band__in">
-    <p class="band__t">A tó Dunavarsány határában, Budapesttől rövid autóútra</p>
+    <h2 class="band__t">Megközelítés</h2>
+    <p class="band__addr">2336 Dunavarsány,<br>Nagyvarsányi utca 138/5</p>
+    <p class="band__d">A tó a település határában található, Budapesttől rövid autóútra.</p>
+    <p class="band__btns">
+      <a class="btn btn--gold" href="https://www.google.com/maps/search/?api=1&amp;query=2336+Dunavars%C3%A1ny+Nagyvars%C3%A1nyi+utca+138%2F5" target="_blank" rel="noopener">Térkép megnyitása</a>
+      <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=2336+Dunavars%C3%A1ny+Nagyvars%C3%A1nyi+utca+138%2F5" target="_blank" rel="noopener">Útvonaltervezés</a>
+    </p>
   </div>
 </section>
 
-<!-- ============ CÍM + TÉRKÉP ============ -->
-<section class="sec sec--tight">
+<!-- ============ KAPCSOLATI ŰRLAP ============ -->
+<!-- A beküldés a Web3Forms végpontjára megy. A saját hozzáférési kulcsot
+     az access_key mezőbe kell beírni — addig az űrlap nem küld (lásd README). -->
+<section class="sec sec--tight" id="urlap">
   <div class="wrap">
-    <div class="split rv">
-      <div class="panel">
-        <h2 class="shead2 shead2--l">Megközelítés</h2>
-        <div class="uline"></div>
-        <p class="disp" style="font-size:1.3rem;font-weight:600;text-transform:none;letter-spacing:.01em;color:var(--dark);margin-top:1.2em">2336 Dunavarsány,<br>Nagyvarsányi utca 138/5</p>
-        <p style="margin-top:.8em;color:var(--ink-soft)">A tó a település határában található, Budapesttől rövid autóútra.</p>
-        <p style="margin-top:1.4em;display:flex;flex-wrap:wrap;gap:12px">
-          <a class="btn btn--dark" href="https://www.google.com/maps/search/?api=1&amp;query=2336+Dunavars%C3%A1ny+Nagyvars%C3%A1nyi+utca+138%2F5" target="_blank" rel="noopener">Térkép megnyitása</a>
-          <a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=2336+Dunavars%C3%A1ny+Nagyvars%C3%A1nyi+utca+138%2F5" target="_blank" rel="noopener">Útvonaltervezés</a>
-        </p>
-      </div>
-      <figure style="margin:0;overflow:hidden;background:var(--dark-2);min-height:300px">
-        <img src="images/DSC_5530.jpg" alt="A tópart zöld növényzettel és nyugodt víztükörrel." loading="lazy" style="width:100%;height:100%;object-fit:cover">
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MIVEL KERESSEN ============ -->
-<section class="sec sec--tight sec--haze">
-  <div class="wrap">
-    <div class="panel panel--paper rv">
-      <h2 class="shead2 center">Miben segítünk szívesen</h2>
+    <div class="panel panel--paper rv" style="max-width:860px;margin:0 auto">
+      <h2 class="shead2 center">Írj nekünk</h2>
       <div class="uline"></div>
-      <ul class="checks mx" style="margin-top:1.6em;max-width:640px">
-        <li><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#check"/></svg>Napijegy, halas jegy és halárak – aktuális információk</li>
-        <li><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#check"/></svg>Szállás és sátorhely foglalása, szabad időpontok</li>
-        <li><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#check"/></svg>Rendezvényterem bérlése, helyszínbejárás</li>
-        <li><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#check"/></svg>Horgászverseny szervezése egyesületeknek és cégeknek</li>
-        <li><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#check"/></svg>Bográcsozás és kemencehasználat egyeztetése</li>
-      </ul>
-      <p class="center" style="margin-top:1.8em">
-        <a class="btn btn--gold" href="mailto:info@farmerhorgaszto.hu?subject=Foglal%C3%A1s%20%E2%80%93%20Farmer%20Horg%C3%A1szt%C3%B3&amp;body=Kedves%20Farmer%20Horg%C3%A1szt%C3%B3%2C%0A%0AMi%C3%A9rt%20j%C3%B6nn%C3%A9k%20(horg%C3%A1szat%20%2F%20sz%C3%A1ll%C3%A1s%20%2F%20s%C3%A1torhely%20%2F%20rendezv%C3%A9ny)%3A%20%0AV%C3%A1rhat%C3%B3%20d%C3%A1tum%3A%20%0AL%C3%A9tsz%C3%A1m%3A%20%0AEgy%C3%A9b%20k%C3%A9rd%C3%A9s%3A%20%0A%0AK%C3%B6sz%C3%B6n%C3%B6m%21">E-mail írása
-          <svg class="btn__a" viewBox="0 0 18 6" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M0 3h16"/><path d="M12.6.6 16 3l-3.4 2.4"/></g></svg></a>
+      <p class="center mx" style="max-width:58ch;margin-top:1.2em;color:var(--ink-soft)">
+        Töltsd ki az űrlapot, és hamarosan válaszolunk. Ha sürgős, hívj minket a nyitvatartási időben.
       </p>
-    </div>
-  </div>
-</section>
 
-<section class="sec sec--tight">
-  <div class="wrap">
-    <div class="ctabar ctabar--dark rv">
-      <svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#pin"/></svg>
-      <div><p class="ctabar__t">Inkább megnéznéd személyesen?</p>
-      <p class="ctabar__d">Szívesen megmutatjuk a tavat és a partot. Helyszínbejárás előzetes egyeztetéssel.</p></div>
-      <a class="btn btn--gold" href="tel:+36703262692">+36 70 326 2692</a>
+      <form class="form" data-form method="POST" action="https://api.web3forms.com/submit"
+            style="margin-top:clamp(24px,2.8vw,36px)">
+
+        <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY">
+        <input type="hidden" name="subject" value="Új üzenet a farmerhorgaszto.hu űrlapról">
+        <input type="hidden" name="from_name" value="Farmer Horgásztó – weboldal">
+
+        <!-- robotcsapda: ember nem látja, ezért nem is töltheti ki -->
+        <div class="form__hp" aria-hidden="true">
+          <label for="f-bot">Ezt a mezőt hagyd üresen</label>
+          <input id="f-bot" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form__grid">
+          <div class="field">
+            <label for="f-nev">Név <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-nev" name="name" type="text" required autocomplete="name"
+                   placeholder="Hogyan szólíthatunk?">
+          </div>
+          <div class="field">
+            <label for="f-email">E-mail <span class="req" aria-hidden="true">*</span></label>
+            <input id="f-email" name="email" type="email" required autocomplete="email"
+                   placeholder="pelda@email.hu">
+          </div>
+          <div class="field">
+            <label for="f-tel">Telefonszám</label>
+            <input id="f-tel" name="Telefonszám" type="tel" autocomplete="tel"
+                   placeholder="+36 30 123 4567">
+          </div>
+          <div class="field">
+            <label for="f-tema">Miben segíthetünk?</label>
+            <select id="f-tema" name="Téma">
+              <option>Horgászat, napijegy</option>
+              <option>Szállás</option>
+              <option>Sátorhely</option>
+              <option>Rendezvényterem</option>
+              <option>Horgászverseny</option>
+              <option>Egyéb kérdés</option>
+            </select>
+          </div>
+          <div class="field field--full">
+            <label for="f-uzenet">Üzenet <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="f-uzenet" name="Üzenet" required
+                      placeholder="Írd meg röviden, miben segíthetünk. Ha foglalnál, a várható dátum és a létszám is segít."></textarea>
+          </div>
+        </div>
+
+        <label class="form__consent">
+          <input type="checkbox" name="Adatkezelés" value="Elfogadva" required>
+          <span>Az <a href="adatkezeles.html">adatkezelési tájékoztatót</a> elolvastam és elfogadom.
+            <span class="req" aria-hidden="true">*</span></span>
+        </label>
+
+        <div class="form__foot">
+          <p class="form__note"><span class="req" aria-hidden="true">*</span> A csillaggal jelölt mezők kitöltése kötelező.</p>
+          <button class="btn btn--gold" type="submit" data-form-submit>Üzenet elküldése
+            <svg class="btn__a" viewBox="0 0 18 6" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M0 3h16"/><path d="M12.6.6 16 3l-3.4 2.4"/></g></svg></button>
+        </div>
+
+        <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -146,10 +180,14 @@
 <a class="ftr__btn" href="https://www.google.com/maps/search/?api=1&amp;query=2336+Dunavars%C3%A1ny+Nagyvars%C3%A1nyi+utca+138%2F5" target="_blank" rel="noopener">Térkép megnyitása</a></div></div>
 </div>
 <div class="ftr__rows">
-<div class="ftr__row"><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#phone"/></svg><a href="tel:+36703262692">+36 70 326 2692</a></div>
+<div class="ftr__row"><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#phone"/></svg>
+<div class="ftr__phones">
+<p class="ftr__sm">Horgászat</p><a href="tel:+36205532113">06 20 553 2113</a>
+<p class="ftr__sm">Rendezvény</p><a href="tel:+36703262692">06 70 326 2692</a>
+</div></div>
 <div class="ftr__row"><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#mail"/></svg><a href="mailto:info@farmerhorgaszto.hu">info@farmerhorgaszto.hu</a></div>
 <div class="ftr__row"><svg class="ico" aria-hidden="true"><use href="assets/img/icons.svg#clock"/></svg>
-<div><p>Nyitvatartás: 7:00 – 18:00</p><p class="g">Keddtől vasárnapig</p><p class="ftr__sm">Hétfő: zárva</p></div></div>
+<div><p>Nyitvatartás:</p><p class="g">Kedd – vasárnap: 7:00 – 18:00</p><p class="ftr__sm">Hétfő: zárva</p></div></div>
 </div>
 </div>
 <div class="ftr__bot">
