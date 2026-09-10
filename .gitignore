@@ -2,6 +2,11 @@
 # a weboldal csak az assets/img/ optimalizált változatait használja.
 # FONTOS: ezeket külön mentsd el, mert a repóban nem lesznek benne!
 
+# Az eredeti, nagy felbontású fotók (447 MB) — a GitHub 1 GB-os
+# ajánlott repóméretét szétvetnék, és a weboldal nem is hivatkozik rájuk:
+# minden oldal az images/ optimalizált változatait használja.
+original_images/
+
 instructions/
 
 # Python
@@ -14,3 +19,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Fejlesztői jegyzet a képmappában: nem tartozik a publikus oldalhoz,
+# és egy személyes Windows-útvonalat is tartalmaz.
+images/OLVASSEL.txt
