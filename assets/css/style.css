@@ -2,7 +2,7 @@
    FARMER HORGÁSZTÓ — stíluslap
    Betűk:  Oswald (címek, menü, gombok, árak) · Roboto (folyószöveg)
            Great Vibes (kézírásos alcím, csak a rendezvényterem oldalon)
-   Színek: #1a2416 mélyzöld · #f1eae2 krém · #c2a44b arany
+   Színek: #4e5b3f mélyzöld · #f1eae2 krém · #c2a44b arany
 
    1) Tokenek  2) Alapok  3) Fejléc  4) Gombok  5) Főoldali hero
    6) Aloldali hero  7) Szekciócímek  8) Jegykártyák  9) Panelek
@@ -15,9 +15,12 @@
 
 /* --- 1. Tokenek ------------------------------------------- */
 :root{
-  --dark:#1a2416;          /* fejléc, lábléc, sötét panelek */
-  --dark-2:#22301c;        /* sötét kártyaalap */
-  --dark-3:#2c3b24;        /* hover */
+  /* A márka sötétzöldje. A -2 és a -3 ugyanennek egy-egy fokkal
+     világosabb lépcsője (kártyaalap, illetve hover) — a ramp azért
+     halad fölfelé, mert a sötét felületen a kiemelés világosodik. */
+  --dark:#4e5b3f;          /* fejléc, lábléc, sötét panelek */
+  --dark-2:#566745;        /* sötét kártyaalap */
+  --dark-3:#5a6b48;        /* hover */
   --cream:#f1eae2;         /* oldal háttér */
   --paper:#f8f4ec;         /* világos kártya */
   --sand:#e6dfd0;          /* tónusos panel */
@@ -27,11 +30,15 @@
   /* Atmoszféra. A tó fotóin a hajnali köd hűvös, zöldes-szürke – ez a
      --haze; a --deep a vízoszlop alja, egy fokkal a --dark alatt. */
   --haze:#e0e2d7;         /* párás, hűvös sáv (a meleg --sand párja) */
-  --deep:#111b12;         /* legmélyebb sáv */
+  --deep:#3f4a33;         /* legmélyebb sáv */
   --ink:#26301f;
   --ink-soft:#515b48;
-  --line:rgba(26,36,22,.17);
-  --line-2:rgba(26,36,22,.3);
+  /* A vonalak a --dark áttetsző változatai. Az alfa azért nagyobb, mint
+     korábban (.17/.3 helyett .22/.38), mert a világosabb alapszín
+     ugyanannyi átlátszósággal halványabb vonalat adna — így a keretek
+     súlya marad a régi. */
+  --line:rgba(78,91,63,.22);
+  --line-2:rgba(78,91,63,.38);
 
   --disp:"Oswald","Arial Narrow",Arial,sans-serif;
   --body:"Roboto","Helvetica Neue",Arial,sans-serif;
@@ -113,7 +120,7 @@ h1,h2,h3,h4,.disp{
   background-color:var(--haze);
   background-image:
     linear-gradient(to bottom,rgba(252,250,245,.62) 0%,rgba(252,250,245,0) 24%),
-    linear-gradient(to top,rgba(26,36,22,.07) 0%,rgba(26,36,22,0) 20%),
+    linear-gradient(to top,rgba(78,91,63,.09) 0%,rgba(78,91,63,0) 20%),
     var(--grain);
   border-top:1px solid rgba(194,164,75,.34);
   border-bottom:1px solid rgba(194,164,75,.34);
@@ -165,7 +172,11 @@ h1,h2,h3,h4,.disp{
 .hdr.is-compact .hdr__in{min-height:68px}
 .hdr.is-compact .logo__fish{width:40px}
 .hdr.is-compact .logo__n{font-size:1.24rem}
-.hdr.is-compact .logo__s{font-size:0;opacity:0;margin-top:-2px}
+/* Összezárt fejlécben a „HORGÁSZTÓ" korábban eltűnt (font-size:0,
+   opacity:0), és lefelé görgetve csak a „FARMER" maradt. A logó
+   viszont a két sor EGYÜTT — ezért összezárva is látszik, csak egy
+   fokkal kisebben, hogy a 68 px-es fejlécbe elférjen. */
+.hdr.is-compact .logo__s{font-size:.62rem;letter-spacing:.26em;margin-top:2px}
 
 /* a logó a bal sarokban áll, a menü jobbra tömörödik */
 .hdr__in{
@@ -263,12 +274,12 @@ h1,h2,h3,h4,.disp{
     linear-gradient(100deg,rgba(14,20,11,.82) 0%,rgba(14,20,11,.52) 34%,rgba(14,20,11,.1) 66%,rgba(14,20,11,0) 88%),
     linear-gradient(to top,rgba(14,20,11,.6) 0%,rgba(14,20,11,0) 46%);
 }
-/* vízszint: a hero alja beolvad a lap légterébe, nem éles vonallal ér véget */
-.hero::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;z-index:2;
-  height:clamp(46px,7vh,104px);pointer-events:none;
-  background:linear-gradient(to bottom,rgba(241,234,226,0),rgba(241,234,226,.5) 70%,var(--cream));
-}
+/* A hero alján KORÁBBAN egy krém színű átmenet olvasztotta a fotót a lap
+   hátterébe. Ez a fátyol a víz rajzán tejes, ködös csíknak látszott, és
+   a kép alsó ~100 képpontját elvette — ezért nem is ért le a fotó a
+   képernyő aljáig. A sáv törölve: a fénykép éles széllel, teljes
+   magasságban záródik. A szövegek olvashatóságáról továbbra is a
+   .hero__scrim sötét gradiense gondoskodik, az változatlan. */
 .hero__in{
   position:relative;z-index:3;width:100%;
   padding:clamp(40px,7vh,90px) var(--pad) clamp(52px,10vh,120px) clamp(22px,2.8vw,52px);
@@ -301,9 +312,9 @@ h1,h2,h3,h4,.disp{
 .phero__img img{width:100%;height:100%;object-fit:cover;object-position:50% 45%}
 .phero::after{
   content:"";position:absolute;inset:0;
+  /* A krémfátyol itt is elmarad (lásd az 5. szakasz megjegyzését), csak
+     a szöveg olvashatóságát adó sötét gradiens marad. */
   background:
-    /* legfelső réteg: a vízszint, ami a lap krémjébe olvad */
-    linear-gradient(to bottom,rgba(241,234,226,0) 80%,rgba(241,234,226,.46) 100%),
     linear-gradient(to bottom,rgba(14,20,11,.52),rgba(14,20,11,.28) 45%,rgba(14,20,11,.62));
 }
 .pagehero,.phero__pad{padding-top:0}
@@ -871,7 +882,21 @@ h1,h2,h3,h4,.disp{
 @media (max-width:760px){
   .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:clamp(96px,20vw,150px)}
   .gal a.wide{grid-column:span 2}
-  .gal--plain{grid-template-columns:repeat(2,1fr) !important}
+  /* Az egyenletes rács (Vendégeink képei, A terem) NEM veheti át a fenti
+     mozaik-sormagasságot. A .gal--plain csempéi aspect-ratio:3/2-ből
+     méreteződnek: telefonszélességen ~175 px széles csempe ~117 px-t
+     kér, a mozaik sora viszont 96 px — a csempe kilógott a saját
+     sávjából, és rácsúszott az alatta lévő képre. (A .gal és a
+     .gal--plain azonos erősségű szelektor, ezért a fentebbi
+     grid-auto-rows:auto-t forrássorrendben ez a blokk ütötte ki —
+     itt kell visszaadni.)
+     A rés is nagyobb: két hasábban a 8 px-es mozaik-rés összemosta a
+     szomszédos fotókat, így egyetlen foltnak látszottak. */
+  .gal--plain{
+    grid-template-columns:repeat(2,1fr) !important;
+    grid-auto-rows:auto;
+    gap:clamp(10px,3vw,16px);
+  }
 }
 
 /* --- 16b. Képnézegető (lightbox) ------------------------- */
@@ -1006,7 +1031,31 @@ h1,h2,h3,h4,.disp{
 .toc a:hover{background:var(--dark);color:var(--cream);border-color:var(--dark)}
 
 /* --- 18. Lábléc ----------------------------------------- */
-.ftr{background:var(--dark);color:rgba(241,234,226,.86);position:relative;overflow:hidden}
+/* A zöld lábléc felső pereme nem éles vonal, hanem vízszerű hullám.
+   Ugyanazzal a technikával, mint a 25. szakasz Parton-blokkja: a
+   hullámot beágyazott SVG szinuszgörbe rajzolja (igazi szinusz, nem
+   félkörös csipke), maszkként vízszintesen ismételve; alatta egy tömör
+   réteg tartja meg a lábléc többi részét.
+   Miért maszk és nem rárakott csík: így a hullámvölgyekben a LAP
+   háttere látszik át, nem egy általunk kitalált szín — a perem tehát
+   akkor is illeszkedik, ha a lábléc fölötti szekció háttere más.
+   A padding-top a hullám magasságával nő, hogy a görbe ne vágjon
+   bele a lábléc tartalmába. */
+.ftr{
+  --wv-w:56px;            /* egy fél hullám szélessége */
+  --wv-h:20px;            /* hullámmagasság */
+  --wv:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='16' preserveAspectRatio='none'%3E%3Cpath d='M0 8 Q20 0 40 8 Q60 16 80 8 L80 16 L0 16 Z' fill='black'/%3E%3C/svg%3E");
+
+  background:var(--dark);color:rgba(241,234,226,.86);
+  position:relative;overflow:hidden;
+  padding-top:var(--wv-h);
+  -webkit-mask:
+    var(--wv) top left/calc(var(--wv-w)*2) var(--wv-h) repeat-x,
+    linear-gradient(#000 0 0) left bottom/100% calc(100% - var(--wv-h)) no-repeat;
+  mask:
+    var(--wv) top left/calc(var(--wv-w)*2) var(--wv-h) repeat-x,
+    linear-gradient(#000 0 0) left bottom/100% calc(100% - var(--wv-h)) no-repeat;
+}
 .ftr__top{
   display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:clamp(24px,4vw,56px);
   max-width:var(--wrap);margin:0 auto;padding:clamp(38px,5vw,64px) var(--pad) clamp(26px,3.4vw,40px);
@@ -1273,6 +1322,234 @@ h1,h2,h3,h4,.disp{
   .feats.feats--dark{--n:1}
   .feats.feats--dark li{border-left:0}
   .feats.feats--dark li + li{border-top:1px solid rgba(241,234,226,.2)}
+}
+
+/* --- 24c. Mobil finomhangolás ----------------------------------------
+   A 21. szakasz általános mobilszabályait két helyen egy inline style
+   ütötte ki: az árak oldal „Tudnivalók" sávja (--n:3) és a
+   rendezvényterem kétosztatú panelje (grid-template-columns) a HTML-ben
+   kapta a hasábszámot. Inline stílust a media query nem tud
+   felülírni, ezért telefonon is 2-3 hasáb maradt, és a bekezdések
+   ujjnyi csíkokba szorultak. A hasábszám ezért innen, osztályból jön —
+   így a törésponti szabályok újra érvényesülnek.
+   A blokk a fájl végén áll, hogy forrássorrendben is nyerjen. */
+
+/* Tudnivalók-sáv (árak): nagy kijelzőn ikon és szöveg egymás mellett,
+   telefonon egymás alatt, középre zárva. */
+.feats--info{--n:3;background:var(--sand)}
+.feats--info li{flex-direction:row;align-items:flex-start;text-align:left;gap:16px}
+
+@media (max-width:900px){
+  .feats.feats--info{--n:2}
+}
+@media (max-width:660px){
+  .feats.feats--info{--n:1}
+  .feats.feats--info li{
+    flex-direction:column;align-items:center;text-align:center;
+    border-left:0;
+  }
+  .feats.feats--info li + li{border-top:1px solid var(--line)}
+}
+
+/* Kétosztatú panel eltérő hasábaránnyal (rendezvényterem). 900 px alatt
+   a 21. szakasz .split-szabálya egy hasábra állítja — ezt most már nem
+   akadályozza inline style. */
+.split--w{grid-template-columns:.85fr 1.15fr;align-items:center}
+@media (max-width:900px){
+  .split.split--w{grid-template-columns:1fr}
+}
+
+/* A fejléc 108 px-es magassága telefonon a képernyő közel ötödét elvitte,
+   pedig a logó 660 px alatt már kisebb betűkkel áll. A magasság egyetlen
+   változóból jön, ezért ennek átállítása egyszerre igazítja a törzs
+   felső térközét, a lenyíló menü tetejét, a hero magasságát és a
+   horgonyokhoz tartozó scroll-padding-ot — nem csúszik el egymáshoz
+   képest semmi. */
+@media (max-width:660px){
+  :root{--hdr-h:76px}
+}
+
+/* Érintőkijelzőn nincs igazi hover, a böngésző viszont koppintás után
+   „ottragadt" hover-állapotot emulál. A galéria csempéi ilyenkor
+   megemelkedtek (translateY + nagy árnyék + z-index:2), és rákerültek a
+   szomszédos képekre — ez volt a „képek egymásra lógnak" hiba a
+   Vendégeink képei rácsban és a rendezvényterem képsávjában. Ahol nincs
+   hover, ott a hover-állapot sem szól bele semmibe. */
+@media (hover:none){
+  .gal a:hover{transform:none;box-shadow:none;z-index:auto}
+  .gal a:hover img{transform:none}
+  .gal a:hover::after{opacity:0}
+}
+
+/* Az oldalra csúsztatható kártyasáv csak vízszintesen mozoghat. Az
+   overflow-x:auto mellett az overflow-y „visible" maradt, amit a CSS
+   automatikusan auto-ra számol — így a sáv függőlegesen is egy kicsit
+   elgörgethető volt. */
+@media (max-width:900px){
+  .hscroll__track{overflow-y:hidden}
+}
+@media (prefers-reduced-motion:reduce){
+  .hscroll__track{overflow-y:hidden}
+}
+
+/* A nyitókép telefonon lejjebb néz: a keskeny, magas kivágásban a
+   felső felét szinte teljesen az ég vitte el, a tó tükre kicsúszott
+   alul. A 72% a víz felé tolja a kivágást. */
+@media (max-width:660px){
+  .hero__img img{object-position:50% 72%}
+}
+
+/* Halas jegy és Halárak telefonon. A pipás lista elemei ikonostul
+   középre kerülnek, a pontozott árlista pedig szűkebb, középre zárt
+   blokká válik — így a név és az ár nem a kijelző két széléhez tapad,
+   hanem együtt, olvasható tömbben áll. */
+@media (max-width:660px){
+  .pfish .checks li{justify-content:center;text-align:center}
+  .plist{max-width:23em;margin-inline:auto}
+}
+
+/* Napijegyek: öt kártya két hasábban 2+2+1 — az ötödik (Vendégjegy)
+   egyedül maradt egy fél sorban. Ha páratlanként utolsó, a teljes sort
+   megkapja, és fekvő elrendezésre vált: ikon balra, szöveg jobbra. */
+@media (max-width:660px){
+  .tickets .ticket:last-child:nth-child(odd){
+    grid-column:1 / -1;
+    flex-direction:row;align-items:stretch;
+  }
+  .tickets .ticket:last-child:nth-child(odd) .ticket__ico{
+    flex:0 0 38%;padding:14px 10px;
+  }
+  .tickets .ticket:last-child:nth-child(odd) .tico{width:clamp(64px,22vw,104px)}
+  .tickets .ticket:last-child:nth-child(odd) .ticket__b{
+    flex:1 1 auto;justify-content:center;
+  }
+  .tickets .ticket:last-child:nth-child(odd) .ticket__p{margin-top:.5em}
+}
+
+/* Lábléc telefonon: minden blokk középre zárva, az ikon a hozzá tartozó
+   szöveg fölé kerül — egy hasábban az ikon+szöveg sor balra tapadt, és
+   a lábléc szétesett. */
+@media (max-width:660px){
+  /* szűk kijelzőn arányosan kisebb hullám — 56 px-es félhullámból
+     telefonszélességben alig két teljes periódus férne ki */
+  .ftr{--wv-w:34px;--wv-h:14px}
+  .ftr__top{justify-items:center;text-align:center}
+  .ftr__row{flex-direction:column;align-items:center;gap:8px}
+  .ftr__row .ico{margin-top:0}
+  .ftr__phones a{display:block}
+  .ftr__bot{justify-content:center}
+  .ftr__bot nav{justify-content:center}
+}
+
+/* FANTOMIKONOK telefonon ---------------------------------------------
+   A sprite ikonjai (<use href="icons.svg#...">) iOS Safariban nem
+   töltődnek be: a WebKit a külső <use>-t nem kéri le — ugyanez a
+   megjegyzés a 25. szakaszban is szerepel, ott ezért lett beágyazva a
+   Parton-blokk dísze. Az <svg> viszont a CSS-ből megkapja a méretét,
+   így a ki nem rajzolt ikon HELYET FOGLAL: a CTA-sávok, a Halas jegy
+   panel és az árlisták tetején ettől lett egy üres sáv, ami lenyomta a
+   szöveget, és a blokk középre zárása elcsúszottnak tűnt.
+   Ezek az ikonok díszítők (aria-hidden), a jelentésből semmi nem
+   múlik rajtuk, ezért szűk nézetben egyszerűen elmaradnak — így a
+   szöveg tényleg a doboz közepén áll. Ha a sprite betöltése egyszer
+   megoldódik (beágyazott sprite), ez a szabály akkor is állhat: egy
+   hasábban az ikonsor csak magasságot vitt. */
+@media (max-width:660px){
+  .ctabar > .ico{display:none}
+  .pfish__ico{display:none}
+  .pfish .checks .ico{display:none}
+  .plist .ico{display:none}
+  .bigprice .ico{display:none}
+  /* a lábléc sorai és a tudnivaló-sávok egy hasábban ikon-fölött-szöveg
+     felállásba kerültek — ott a fantomikon üres sort nyitott a szöveg
+     fölé, ezért ezek is elmaradnak */
+  .ftr__row .ico{display:none}
+  .feats .ico{display:none}
+  .checks .ico{display:none}
+  /* A logó hala ugyanígy fantom: 42 px + 10 px rés maradt üresen a
+     „FARMER" előtt, ami elhúzta a logót a bal sarokból. Nélküle a
+     feliratos logó tényleg a sarokban áll.
+     (A lábléc dísz-hala marad: az absztolút pozíciójú, 5%-os
+     vízjel — helyet nem foglal, tördelést nem befolyásol.) */
+  .logo__fish{display:none}
+  .logo{gap:0}
+}
+
+/* Középre zárás telefonon. A balra igazított szekciócímek, a CTA-sávok
+   és a lábléc alja is középre kerül, hogy a szűk hasábban egységes
+   legyen a ritmus. A hosszú folyószöveg (.prose) és az ikonos listák
+   (.checks, .plist) szándékosan balra zártak maradnak: középre zárva a
+   sorkezdetek elcsúsznak, és a felsorolás olvashatatlanná válik. */
+@media (max-width:660px){
+  .shead2--l{text-align:center}
+  .shead2--l+.uline{margin-left:auto;margin-right:auto}
+  .ctabar{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .ctabar .btn{grid-column:1 / -1;justify-self:center}
+  .ftr__bot{align-items:center;text-align:center}
+}
+
+/* Ahol a kétosztatú blokk két fele egymás alá kerül, ott a .split
+   alaprése (14–26 px) kevés: az árak oldalon a SZÁLLÁS cím közvetlenül
+   a halárak utolsó sorára ült. Vékony vonal és nagyobb, szimmetrikus
+   térköz választja el a két felet. A szabály csak az egy hasábos
+   sávban él — két hasábban egymás mellett állnak, ott nincs mit
+   elválasztani. A gap ezért 0, a távolságot a margó és a belső térköz
+   adja, így a vonal fölött és alatt ugyanannyi hely marad. */
+@media (max-width:900px){
+  .split--sep{gap:0}
+  .split--sep > * + *{
+    margin-top:clamp(26px,6vw,38px);
+    padding-top:clamp(26px,6vw,38px);
+    border-top:1px solid var(--line);
+  }
+}
+
+/* --- 24d. Minden szöveg középre telefonon ----------------------------
+   Kifejezett kérés: szűk nézetben MINDEN szöveg középre zárva áll.
+   A főtartalom és a lábléc egy közös igazítást kap, mert a text-align
+   öröklődik — így nem kell minden komponenst külön felsorolni.
+   Amit viszont a text-align nem mozgat, azt külön kezeljük:
+     · a flexbox-alapú sorok (pipás lista, árlista, lábléc-sorok) igazítása
+       a justify-content, nem a text-align dolga;
+     · az árlista pontozott kitöltése középre zárt sorban értelmét veszti
+       (a nevet és az árat a két szélre feszítené), ezért elmarad;
+     · a jogi oldalak listajelei absztolút pozícióban, a sor bal szélén
+       ültek — középre zárt szöveg mellett elszakadtak volna tőle, ezért
+       inline jelölővé válnak, közvetlenül a szöveg előtt. */
+@media (max-width:660px){
+  main{text-align:center}
+  .ftr{text-align:center}
+
+  /* flex-sorok: a tartalom a sor közepére */
+  .checks li{justify-content:center}
+  .plist li{justify-content:center}
+  .plist__dots{display:none}
+  .plist{max-width:none}
+  .bigprice{justify-content:center}
+  .band__m{justify-content:center}
+  .ftr__row{justify-content:center}
+  .ftr__bot,.ftr__bot nav{justify-content:center}
+
+  /* Fix szélességű ARANY VONALAK. Ezeket a text-align nem mozdítja:
+     vagy blokk-szintűek (a saját szélességükön belül igazít, a blokk
+     maga marad balra), vagy absztolút pozíciójúak left:0-val. Ezért a
+     hero vonala és a számadatok fölötti vonalkák a középre zárt szöveg
+     alatt/fölött balra csúsztak. Nagy kijelzőn ez helyes — ott a hero
+     és a fotósáv szövege is balra zárt —, ezért csak itt középre. */
+  .hero__rule{margin-inline:auto}
+  .band__t::before{margin-inline:auto}
+  .band__m div::before{left:50%;transform:translateX(-50%)}
+  .intro__cols p::before{left:50%;transform:translateX(-50%)}
+  .prose h2+.uline{margin-left:auto;margin-right:auto}
+
+  /* jogi oldalak: a listajel a szöveg elé, a behúzás megszűnik */
+  .prose ul li{padding-left:0}
+  .prose ul li::before{
+    position:static;display:inline-block;
+    margin-right:8px;vertical-align:middle;
+  }
+  .prose dl{grid-template-columns:1fr;gap:.15em 0;justify-items:center}
+  .prose dt{padding-top:.6em}
 }
 
 /* --- 25. „Parton" átvezető blokk ------------------------------------
